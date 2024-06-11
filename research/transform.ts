@@ -1,14 +1,20 @@
 import { plainToInstance } from 'class-transformer';
-import DataLoader from 'dataloader'
-
-interface Type<T> extends Function { new(...args: any[]): T; }
 
 (async function () {
+    class Info {
+        hobby!: string
+
+        resolve_hobby() {
+            return 'swiming'
+        }
+    }
+
     class User {
         id!: number;
         firstName!: string;
         lastName!: string;
         age!: number;
+        info!: Info
 
         resolve_age() {
             return 21
@@ -20,19 +26,28 @@ interface Type<T> extends Function { new(...args: any[]): T; }
             "id": 1,
             "firstName": "Johny",
             "lastName": "Cage",
-            "age": 27
+            "age": 27,
+            "info": {
+                "hobby": "runing"
+            }
         },
         {
             "id": 2,
             "firstName": "Ismoil",
             "lastName": "Somoni",
-            "age": 50
+            "age": 50,
+            "info": {
+                "hobby": "runing"
+            }
         },
         {
             "id": 3,
             "firstName": "Luke",
             "lastName": "Dacascos",
-            "age": 12
+            "age": 12,
+            "info": {
+                "hobby": "runing"
+            }
         }
     ]
 
@@ -49,23 +64,6 @@ interface Type<T> extends Function { new(...args: any[]): T; }
         const resolvers = fields.filter(f => f.toString().startsWith('resolve_'))
         return resolvers
     }
-    console.log(getMethods(User))
-
-    const batcherFn = function (arg: number) {
-        const p = async (keys: number[]) => {
-            return keys.map((k) => k + arg)
-        }
-        return p
-    }
-
-    const batcher = batcherFn(1)
-    // @ts-ignore
-    const loader = new DataLoader(batcher)
-    const result = await Promise.all([
-        loader.load(1),
-        loader.load(2),
-        loader.load(3),
-    ])
-    console.log(result)
+    console.log(getMethods(user.constructor))
 
 })()
