@@ -27,14 +27,14 @@ class User {
 
 const u = new User()
 
-const getType = (obj: object, field: string) => {
+export const getType = (obj: object, field: string) => {
     return Reflect.getMetadata('design:type', obj, field)
 }
 
 console.log(getType(u, 'id')) // undefined
 console.log(getType(u, 'info'))
 
-const uu = plainToInstance(User, {id: 12, content: 111, info: {hobby: 'writing'}}, {})
+const uu = plainToInstance(User, {id: 12, content: 111, info: {hobby: 'writing'}}, {enableImplicitConversion: true})
 console.log(uu)
 validate(uu).then(errors => {
     console.log(errors)
